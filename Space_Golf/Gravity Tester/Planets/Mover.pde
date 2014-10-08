@@ -13,7 +13,8 @@ class Mover {
   Mover(float m, float x, float y) {
     mass = 3;
     location = new PVector(x, y);
-    velocity = new PVector(15, 0);
+    velocity = new PVector(5, 0);
+    newv = velocity.mag();
     acceleration = new PVector(0, 0);
   }
 
@@ -58,7 +59,7 @@ class Mover {
 
   void update() {
     velocity.add(acceleration);
-    float newv = velocity.mag();
+    //float newv = velocity.mag();
     //newv = constrain(newv, -6.5, 6.5);
     velocity.normalize();
     velocity.mult(newv);
@@ -70,7 +71,7 @@ class Mover {
     stroke(0);
     strokeWeight(2);
     fill(0,100);
-    ellipse(location.x, location.y, 2*25, 2*25);
+    ellipse(location.x, location.y, 1*25, 1*25);
   }
 }
 

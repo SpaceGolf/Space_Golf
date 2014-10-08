@@ -15,7 +15,7 @@ class Attractor {
   Attractor(int w, int h, float m) {
     location = new PVector(w,h);
     mass = m;
-    G = 10;
+    G = 5;
     dragOffset = new PVector(0.0,0.0);
   }
 
