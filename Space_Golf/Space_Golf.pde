@@ -5,6 +5,8 @@ TargetPortal portal;
 //Creating an array list for the planets to be stored in
 ArrayList <Planets> planets = new ArrayList<Planets>();
 
+int counter = 60;
+
 //The setup method. initializes all of the main classes stuff
 void setup()
 {
@@ -15,7 +17,7 @@ void setup()
     player = new SpaceShip(new PVector(width/2, height/2));
     portal = new TargetPortal();
     
-    //HArdcoded planet positions and size for the game
+    //Hardcoded planet positions and mass of the planets
     planets.add(new Planets(new PVector(150, 150), 10));
     planets.add(new Planets(new PVector(250, 650), 15));
     planets.add(new Planets(new PVector(400, 400), 10));
@@ -40,8 +42,20 @@ void draw()
   //Setting the color of the background to black
   background(0);
   
+  
   pushMatrix();
   translate(player.center.x, player.center.y);
+  
+  if(player.alive == false && counter == 0)
+  {
+    counter = 60;
+    player.restart();
+    
+  }
+  else if(player.alive==false)
+  {
+    counter--;
+  }
   
       //For each planet, calculate the force of gravity to be applied to the player
     for(int i=0; i<planets.size()-1;i++)
@@ -50,6 +64,11 @@ void draw()
      {
        PVector force = planets.get(i).attract(player);     //Setting up the force of gravity
        player.applyForce(force);    //applying the resulting force
+       
+       if(player.planetCollision(planets.get(i)))
+       {
+         player.alive = false;
+       }
      }
    } 
   
@@ -69,9 +88,13 @@ void draw()
     ellipse(planBodies.planetCenter.x, planBodies.planetCenter.y, planBodies.gravField, planBodies.gravField);
   }
   
-  //Calling the display for the player
   portal.display();
-  player.display(); 
+  
+  //Calling the display for the player
+  if(player.alive)
+  {
+    player.display(); 
+  }
   
 }
 

@@ -12,6 +12,7 @@ class SpaceShip
   PVector resulting = new PVector(0,0); 
   PVector acceleration = new PVector(0,0);
   
+  boolean alive;
   float speed = 0;
   float topSpeed= 6.2;
   
@@ -23,6 +24,7 @@ class SpaceShip
   //The constructor
   SpaceShip(PVector startPosit)
   {
+    alive=true;
     center = startPosit;
     
      fill(255);
@@ -105,6 +107,16 @@ class SpaceShip
     popMatrix();
   }
   
+  void restart()
+  {
+    center.x = width/2;
+    center.y = height/2;
+    PVector.fromAngle(radians(-90), direction);
+    PVector.fromAngle(radians(-90), boostVector);
+    velocity.mult(0);
+    alive=true;
+  }
+  
   //Checking for collisions with the borders of the screen
   void bordersCollisions()
   {
@@ -128,6 +140,20 @@ class SpaceShip
       center.y = 800;
     }
      
+  }
+  
+  boolean planetCollision(Planets planet)
+  {
+    if(PVector.sub(center,planet.planetCenter).mag() <= planet.radius /2)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+    
+    
   }
   
   void applyForce (PVector force){
