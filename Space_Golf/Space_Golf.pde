@@ -16,13 +16,14 @@ void setup()
     portal = new TargetPortal();
     
     //HArdcoded planet positions and size for the game
-    planets.add(new Planets(new PVector(150, 150), 100));
-    planets.add(new Planets(new PVector(250, 650), 150));
-    planets.add(new Planets(new PVector(400, 400), 100));
-    planets.add(new Planets(new PVector(600, 225), 75));
-    planets.add(new Planets(new PVector(650, 650), 80));
-    planets.add(new Planets(new PVector(975, 400), 250));
-    planets.add(new Planets(new PVector(1350, 550), 100));
+    planets.add(new Planets(new PVector(150, 150), 10));
+    planets.add(new Planets(new PVector(250, 650), 15));
+    planets.add(new Planets(new PVector(400, 400), 10));
+    planets.add(new Planets(new PVector(600, 225), 7.5));
+    planets.add(new Planets(new PVector(650, 650), 8));
+    planets.add(new Planets(new PVector(975, 400), 17));
+    planets.add(new Planets(new PVector(1350, 550), 10));
+
     
     //Randomized planets for testing purposes DELETE WHEN NO LONGER NEEDED
     /*for(int i = 0; i < 10; i++)
@@ -42,6 +43,15 @@ void draw()
   pushMatrix();
   translate(player.center.x, player.center.y);
   
+      //For each planet, calculate the force of gravity to be applied to the player
+    for(int i=0; i<planets.size()-1;i++)
+   {
+     if(planets.get(i).InsideGravField(player)) //only applies the force if the player is inside the gravitational field
+     {
+       PVector force = planets.get(i).attract(player);     //Setting up the force of gravity
+       player.applyForce(force);    //applying the resulting force
+     }
+   } 
   
   //must update with new information from the SpaceShip class
    player.movementUpdate();
@@ -52,11 +62,17 @@ void draw()
   for(Planets planBodies: planets)
   {
     planBodies.display();
+    
+    //display of the gravity field.
+    ellipseMode(CENTER);
+    fill(97, 240, 250, 126);
+    ellipse(planBodies.planetCenter.x, planBodies.planetCenter.y, planBodies.gravField, planBodies.gravField);
   }
   
   //Calling the display for the player
-  player.display(); 
   portal.display();
+  player.display(); 
+  
 }
 
 

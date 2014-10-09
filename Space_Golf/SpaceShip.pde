@@ -10,9 +10,10 @@ class SpaceShip
   PVector direction = new PVector(0, 0); 
   PVector velocity = new PVector(0, 0);
   PVector resulting = new PVector(0,0); 
+  PVector acceleration = new PVector(0,0);
   
   float speed = 0;
-  float topSpeed= 6;
+  float topSpeed= 6.2;
   
   //Booleans: checking for KEYRELEASED to rotate the body left and right
   boolean right = false;
@@ -73,8 +74,13 @@ class SpaceShip
     //Calculating the resulting vector, getting the previous velocity vector and adding to it the boost vector.
     resulting= PVector.add(boostVector, velocity);
     
+    //Adding to the resulting speed to the acceleration provided from the planets gravity
+    resulting.add(acceleration);
+    
+    
     //The current velocity vector is equals to the calculated resulting vector.
     velocity = resulting;
+    acceleration.mult(0);    // set the acceleration to zero for the next update
     
     //Checking for the top speed
     if(velocity.mag() > topSpeed)
@@ -84,6 +90,7 @@ class SpaceShip
     }
  
     center.add(velocity);
+  
     bordersCollisions();
   }
   
@@ -111,17 +118,21 @@ class SpaceShip
       center.y = 0;
     }
     
-    if(center.x > displayWidth)
+    if(center.x > 1500)
     {
-      center.x = displayWidth;
+      center.x = 1500;
     }
     
-    if(center.y > displayHeight)
+    if(center.y > 800)
     {
-      center.y = displayHeight;
+      center.y = 800;
     }
-    
-    
+     
+  }
+  
+  void applyForce (PVector force){
+    //PVector applied = PVector.div(force,10);
+    acceleration.add(force);
   }
   
 }
