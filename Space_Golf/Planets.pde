@@ -2,7 +2,7 @@
 class Planets
 {
   
-  PVector planetCenter = new PVector(0, 0);    //The center PVector for position reference  
+  PVector position = new PVector(0, 0);    //The center PVector for position reference  
   float radius = 0;    //The radius for the planet
   float mass;    //mass of the planet
   float constG;    //Gravitational constant
@@ -12,8 +12,8 @@ class Planets
   Planets(PVector a_position, float a_mass)
   {
     //Setting the PVectors to equal one another and the floats to do the same
-    planetCenter.x = a_position.x;
-    planetCenter.y = a_position.y;
+    position.x = a_position.x;
+    position.y = a_position.y;
     radius = a_mass * 10;
     mass = a_mass;
     gravField =  30 * a_mass;
@@ -23,7 +23,7 @@ class Planets
   //This method is used for attractign the player to the planet
   PVector attract(SpaceShip player)
   {   
-   PVector force = PVector.sub(planetCenter,player.center);
+   PVector force = PVector.sub(position,player.position);
    float distance = force.mag(); //the distance between the planet and the player
    distance = constrain(distance,10.0,25.0); // constraining for big and short distances.
    force.normalize(); //normalizing the vector, so that we just use the direction of the vector for the calculation
@@ -38,7 +38,7 @@ class Planets
   //Method for checking if the player is inside the gravitational field, if it is, return true
   boolean InsideGravField(SpaceShip player)
   {    
-    if(PVector.sub(player.center,planetCenter).mag() <= gravField *0.6)
+    if(PVector.sub(player.position,position).mag() <= gravField *0.6)
     {
       return true;
     }
@@ -53,7 +53,7 @@ class Planets
   void display()
   {
     fill(140, 75, 10);  
-    ellipse(planetCenter.x, planetCenter.y, radius, radius);
+    ellipse(position.x, position.y, radius, radius);
   }
 }
 

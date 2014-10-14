@@ -20,22 +20,10 @@ void setup()
     size(1500, 800, P2D);
     
     //Creating the player instance and placing it in the actual position (CHANGE LATER)
-    player = new SpaceShip(new PVector(100, height/2));
-    portal = new TargetPortal(new PVector(1400, 100), 75);
-    
-    //Hardcoded planet positions and mass of the planets
-    planets.add(new Planets(new PVector(150, 150), 10));
-    planets.add(new Planets(new PVector(250, 650), 15));
-    planets.add(new Planets(new PVector(400, 200), 11));
-    planets.add(new Planets(new PVector(450, 400), 8));
-    planets.add(new Planets(new PVector(650, 225), 7.5));
-    planets.add(new Planets(new PVector(650, 650), 8));
-    planets.add(new Planets(new PVector(700, 75), 7));
-    planets.add(new Planets(new PVector(975, 400), 17));
-    planets.add(new Planets(new PVector(1050, 50), 10));
-    planets.add(new Planets(new PVector(1200, 750), 13));
-    planets.add(new Planets(new PVector(1350, 550), 10));
-    planets.add(new Planets(new PVector(1300, 275), 12));
+    player = new SpaceShip(new PVector(100,height/2));
+    restartBackground();
+
+
 }
 
 //methods looking for key presses to send information on rotation back to the SpaceShip class
@@ -95,7 +83,7 @@ void draw()
     //display of the gravity field.
     ellipseMode(CENTER);
     fill(97, 240, 250, 126);
-    ellipse(planBodies.planetCenter.x, planBodies.planetCenter.y, planBodies.gravField, planBodies.gravField);
+    ellipse(planBodies.position.x, planBodies.position.y, planBodies.gravField, planBodies.gravField);
   }
   
   //Draw the portal
@@ -130,6 +118,7 @@ void draw()
       {
         respawnCounter = 60;
         player.restart();
+        restartBackground();
         score = 1000;
       }
       else
@@ -158,11 +147,13 @@ void draw()
       //If the score drops to 0, the player dies
       if(score <= 0)
       {
+        score = 0;
         player.alive = false;
       } 
       
       //must update with new information from the SpaceShip class
       player.movementUpdate();
+      ScrollBackground();
       //Calling the player's target collision method
       player.targetCollision(portal);
       player.display();
@@ -180,4 +171,45 @@ void draw()
     textSize(75);
     text("Your Final Score is: " + score, width/2 - 350, height/2 + 125);
   }
+}
+
+void restartBackground()
+{
+    portal = new TargetPortal(new PVector(width * 3, height/2), 75);
+    
+    planets.clear();
+    
+    planets.add(new Planets(new PVector(width/2, height/2), 10));
+    planets.add(new Planets(new PVector(width * 1.5, height * 0.6), 8));
+    planets.add(new Planets(new PVector(width * 1.73, height * 0.2), 10));
+    planets.add(new Planets(new PVector(width * 0.6, height * 0.9), 12));
+    planets.add(new Planets(new PVector(width * 0.9, height * 0.76), 14));
+    planets.add(new Planets(new PVector(width * 1.8, height * 0.8), 10));
+    planets.add(new Planets(new PVector(width * 2.33, height * 0.7), 10));
+    planets.add(new Planets(new PVector(width * 2.53, height * 0.5), 10));
+    planets.add(new Planets(new PVector(width * 2.73, height * 0.8), 10));
+}
+
+void ScrollBackground()
+{
+  if(player.velocity.x > 0 && player.position.x < portal.position.x)
+  {
+    for(int i = 0; i < planets.size(); i++)
+    {
+      planets.get(i).position.add(-player.velocity.x,0,0);
+    }
+    
+    portal.position.add(-player.velocity.x,0,0);
+  }
+  
+  if(player.velocity.x < 0 && player.position.x > 100)
+  {
+    for(int i = 0; i < planets.size(); i++)
+    {
+      planets.get(i).position.add(-player.velocity.x,0,0);
+    }
+    
+    portal.position.add(-player.velocity.x ,0,0);
+  }
+   
 }

@@ -4,7 +4,7 @@ class SpaceShip
   //The PShape that will form the body later
   PShape body;
   //The center to be used for positioning
-  PVector center = new PVector(0, 0);
+  PVector position = new PVector(0, 0);
   PVector spawnPoint = new PVector(100, height/2);
   
   PVector boostVector = new PVector(0, 0); 
@@ -28,7 +28,7 @@ class SpaceShip
   SpaceShip(PVector startPosit)
   {
     alive=true;
-    center = startPosit;
+    position = startPosit;
     boostCooldown = 30;
     
      fill(255);
@@ -68,7 +68,7 @@ class SpaceShip
     
     if(boost && boostCooldown == 30)
     {
-      speed=10;
+      speed=8;
       boostCooldown = 0;
     }
     else
@@ -100,16 +100,16 @@ class SpaceShip
       velocity = PVector.mult(velocity, topSpeed);
     }
  
-    center.add(velocity);
+    position.add(velocity);
   
     bordersCollisions();
   }
   
   void restart()
   {
-    center.x = 100;
-    center.y = height/2;
-    //center = spawnPoint;
+    position.x = 100;
+    position.y = height/2;
+    //position = spawnPoint;
     PVector.fromAngle(radians(-90), direction);
     PVector.fromAngle(radians(-90), boostVector);
     velocity.mult(0);
@@ -120,31 +120,31 @@ class SpaceShip
   //Checking for collisions with the borders of the screen
   void bordersCollisions()
   {
-    if(center.x < 0)
+    if(position.x < 0)
     {
-      center.x = 0;
+      position.x = 0;
     }
     
-    if(center.y < 0)
+    if(position.y < 0)
     {
-      center.y = 0;
+      position.y = 0;
     }
     
-    if(center.x > width)
+    if(position.x > width)
     {
-      center.x = width;
+      position.x = width;
     }
     
-    if(center.y > height)
+    if(position.y > height)
     {
-      center.y = height;
+      position.y = height;
     }
      
   }
   
   boolean planetCollision(Planets planet)
   {
-    if(PVector.sub(center,planet.planetCenter).mag() < planet.radius /2)
+    if(PVector.sub(position,planet.position).mag() < planet.radius /2)
     {
       return true;
     }
@@ -159,7 +159,7 @@ class SpaceShip
   {
     //Getting the distance of the target to the player
     //If the they are too close, the game is won
-    if(PVector.sub(center,endTarget.position).mag() < endTarget.radius)
+    if(PVector.sub(position,endTarget.position).mag() < endTarget.radius)
     {
       gameWon = true;
     }
@@ -180,7 +180,7 @@ class SpaceShip
   {
     //Calling the createBody method, then drawing the created shape
     pushMatrix();
-    translate(center.x, center.y);
+    translate(position.x, position.y);
     rotate(direction.heading());
     shape(body);
     popMatrix();
