@@ -16,19 +16,11 @@ class Planets
     planetCenter.y = a_position.y;
     radius = a_mass * 10;
     mass = a_mass;
-    gravField =  20 * a_mass;
+    gravField =  30 * a_mass;
     constG = 8;
   }
   
-  //The display, same as the others
-  void display()
-  {
-    fill(140, 75, 10);  
-    ellipse(planetCenter.x, planetCenter.y, radius, radius);
-   
-
-  }
-  ;  //This method is used for attractign the player to the planet
+  //This method is used for attractign the player to the planet
   PVector attract(SpaceShip player)
   {   
    PVector force = PVector.sub(planetCenter,player.center);
@@ -45,8 +37,7 @@ class Planets
                 
   //Method for checking if the player is inside the gravitational field, if it is, return true
   boolean InsideGravField(SpaceShip player)
-  {
-    
+  {    
     if(PVector.sub(player.center,planetCenter).mag() <= gravField *0.6)
     {
       return true;
@@ -57,7 +48,13 @@ class Planets
     }
         
   }
-
+  
+  //The display, same as the others
+  void display()
+  {
+    fill(140, 75, 10);  
+    ellipse(planetCenter.x, planetCenter.y, radius, radius);
+  }
 }
 
 

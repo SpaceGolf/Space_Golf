@@ -5,6 +5,7 @@ class SpaceShip
   PShape body;
   //The center to be used for positioning
   PVector center = new PVector(0, 0);
+  PVector spawnPoint = new PVector(100, height/2);
   
   PVector boostVector = new PVector(0, 0); 
   PVector direction = new PVector(0, 0); 
@@ -13,8 +14,10 @@ class SpaceShip
   PVector acceleration = new PVector(0,0);
   
   boolean alive;
+  boolean gameWon = false;
   float speed = 0;
   float topSpeed= 6.2;
+  float boostCooldown;
   
   //Booleans: checking for KEYRELEASED to rotate the body left and right
   boolean right = false;
@@ -26,6 +29,7 @@ class SpaceShip
   {
     alive=true;
     center = startPosit;
+    boostCooldown = 30;
     
      fill(255);
     //Creating and starting the shape 
@@ -47,6 +51,10 @@ class SpaceShip
   
   void movementUpdate()
   {
+    if(boostCooldown < 30)
+    {
+      boostCooldown++;
+    }
     //updates left and right booleans from KEYRELEASED events in "Space_Golf"
     if(right)
     {
@@ -58,9 +66,10 @@ class SpaceShip
      direction.rotate( -.1);
     }
     
-    if(boost)
+    if(boost && boostCooldown == 30)
     {
-      speed=2;
+      speed=10;
+      boostCooldown = 0;
     }
     else
     {
@@ -96,25 +105,16 @@ class SpaceShip
     bordersCollisions();
   }
   
-  //Display
-  void display()
-  {
-    //Calling the createBody method, then drawing the created shape
-    pushMatrix();
-    translate(center.x, center.y);
-    rotate(direction.heading());
-    shape(body);
-    popMatrix();
-  }
-  
   void restart()
   {
-    center.x = width/2;
+    center.x = 100;
     center.y = height/2;
+    //center = spawnPoint;
     PVector.fromAngle(radians(-90), direction);
     PVector.fromAngle(radians(-90), boostVector);
     velocity.mult(0);
     alive=true;
+    boostCooldown = 30;
   }
   
   //Checking for collisions with the borders of the screen
@@ -130,35 +130,61 @@ class SpaceShip
       center.y = 0;
     }
     
-    if(center.x > 1500)
+    if(center.x > width)
     {
-      center.x = 1500;
+      center.x = width;
     }
     
-    if(center.y > 800)
+    if(center.y > height)
     {
-      center.y = 800;
+      center.y = height;
     }
      
   }
   
   boolean planetCollision(Planets planet)
   {
-    if(PVector.sub(center,planet.planetCenter).mag() <= planet.radius /2)
+    if(PVector.sub(center,planet.planetCenter).mag() < planet.radius /2)
     {
       return true;
     }
     else
     {
       return false;
-    }
-    
-    
+    }        
   }
   
-  void applyForce (PVector force){
+  //The method for handling victory collision
+  void targetCollision(TargetPortal endTarget)
+  {
+    //Getting the distance of the target to the player
+    //If the they are too close, the game is won
+    if(PVector.sub(center,endTarget.position).mag() < endTarget.radius)
+    {
+      gameWon = true;
+    }
+    else
+    {
+      gameWon = false;
+    }
+  }
+  
+  void applyForce (PVector force)
+  {
     //PVector applied = PVector.div(force,10);
     acceleration.add(force);
   }
   
+  //Display
+  void display()
+  {
+    //Calling the createBody method, then drawing the created shape
+    pushMatrix();
+    translate(center.x, center.y);
+    rotate(direction.heading());
+    shape(body);
+    popMatrix();
+  }
 }
+  
+  
