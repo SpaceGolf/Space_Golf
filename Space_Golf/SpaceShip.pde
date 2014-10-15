@@ -34,7 +34,7 @@ class SpaceShip
   {
     alive=true;
     position = startPosit;
-    boostCooldown = 30;
+    boostCooldown = 20;
     
     leftCamBorder = width / 3;
     rightCamBorder = 2* width/3;
@@ -61,7 +61,7 @@ class SpaceShip
   
   void movementUpdate()
   {
-    if(boostCooldown < 30)
+    if(boostCooldown < 20)
     {
       boostCooldown++;
     }
@@ -76,7 +76,7 @@ class SpaceShip
      direction.rotate( -.1);
     }
     
-    if(boost && boostCooldown == 30)
+    if(boost && boostCooldown == 20)
     {
       speed=6;
       boostCooldown = 0;
@@ -125,7 +125,7 @@ class SpaceShip
     PVector.fromAngle(radians(-90), boostVector);
     velocity.mult(0);
     alive=true;
-    boostCooldown = 30;
+    boostCooldown = 20;
   }
   
   //Checking for collisions with the borders of the screen
@@ -153,7 +153,7 @@ class SpaceShip
      
   }
   
-  boolean planetCollision(Planets planet)
+  boolean planetCollision(Planet planet)
   {
     if(PVector.sub(position,planet.position).mag() < planet.radius /2)
     {
@@ -189,7 +189,7 @@ class SpaceShip
   }
   
   //The method for handling victory collision
-  void targetCollision(TargetPortal endTarget)
+  void targetCollision(Portal endTarget)
   {
     //Getting the distance of the target to the player
     //If the they are too close, the game is won

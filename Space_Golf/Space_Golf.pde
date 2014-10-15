@@ -1,9 +1,9 @@
 //THE MAIN CLASS
 //Creating an instance of the player class
 SpaceShip player;
-TargetPortal portal;
+Portal portal;
 //Creating an array list for the planets to be stored in
-ArrayList <Planets> planets = new ArrayList<Planets>();
+ArrayList <Planet> planets = new ArrayList<Planet>();
 
 //The int for the player's score and the timer that decriments the score
 int scoreCounter = 60;
@@ -21,7 +21,6 @@ void setup()
     
     //Creating the player instance and placing it in the actual position (CHANGE LATER)
     player = new SpaceShip(new PVector(width/3,height/2));
-    portal = new TargetPortal(new PVector( width* 1.5, height/2),20);
     restartBackground();
 
 
@@ -77,7 +76,7 @@ void draw()
   background(0);
   
   //Calling the display for all of the planets
-  for(Planets planBodies: planets)
+  for(Planet planBodies: planets)
   {
     planBodies.display();
     
@@ -176,19 +175,28 @@ void draw()
 
 void restartBackground()
 {
-    portal = new TargetPortal(new PVector(width * 3, height/2), 75);
+    portal = new Portal(new PVector(width * 3, height/2), 75);
     
     planets.clear();
     
-    planets.add(new Planets(new PVector(width/2, height/2), 10));
-    planets.add(new Planets(new PVector(width * 1.5, height * 0.6), 8));
-    planets.add(new Planets(new PVector(width * 1.73, height * 0.2), 10));
-    planets.add(new Planets(new PVector(width * 0.6, height * 0.9), 12));
-    planets.add(new Planets(new PVector(width * 0.9, height * 0.76), 14));
-    planets.add(new Planets(new PVector(width * 1.8, height * 0.8), 10));
-    planets.add(new Planets(new PVector(width * 2.33, height * 0.7), 10));
-    planets.add(new Planets(new PVector(width * 2.53, height * 0.5), 10));
-    planets.add(new Planets(new PVector(width * 2.73, height * 0.8), 10));
+    planets.add(new Planet(new PVector(width/2, height/2), 10));
+    planets.add(new Planet(new PVector(width * 1.5, height * 0.6), 8));
+    planets.add(new Planet(new PVector(width * 1.73, height * 1.2), 10));
+    planets.add(new Planet(new PVector(width * 0.6, height * 0.9), 12));
+    planets.add(new Planet(new PVector(width * 0.9, height * 0.76), 14));
+    planets.add(new Planet(new PVector(width * 1.8, height * 0.8), 10));
+    planets.add(new Planet(new PVector(width * 2.33, height * 0.7), 10));
+    planets.add(new Planet(new PVector(width * 2.53, height * 1.5), 10));
+    planets.add(new Planet(new PVector(width * 2.73, height * 0.8), 10));
+    planets.add(new Planet(new PVector(width/2, height/3), 10));
+    planets.add(new Planet(new PVector(width * 1.1, height * 1.4), 12));
+    planets.add(new Planet(new PVector(width * 1.23, height * 0.3), 15));
+    planets.add(new Planet(new PVector(width * 0.6, height * 0.9), 12));
+    planets.add(new Planet(new PVector(width * 0.8, height * 1.46), 14));
+    planets.add(new Planet(new PVector(width * 1.8, height * 1.2), 10));
+    planets.add(new Planet(new PVector(width * 2.13, height * 0.52), 16));
+    planets.add(new Planet(new PVector(width * 2.53, height * 1.6), 13));
+    planets.add(new Planet(new PVector(width * 1.43, height * 0.43), 18));
 }
 
 void ScrollBackground()
@@ -232,6 +240,5 @@ void ScrollBackground()
     
     portal.position.add(0,-player.velocity.y,0);
   }
-  
-   
+     
 }

@@ -1,9 +1,9 @@
 class Target
 {
   PVector position;
-  TargetPortal portal;
+  Portal portal;
   
-  Target(TargetPortal port)
+  Target(Portal port)
   {
     position = new PVector(0,0);
     portal = port;
