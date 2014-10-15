@@ -182,21 +182,14 @@ void restartBackground()
     planets.add(new Planet(new PVector(width/2, height/2), 10));
     planets.add(new Planet(new PVector(width * 1.5, height * 0.6), 8));
     planets.add(new Planet(new PVector(width * 1.73, height * 1.2), 10));
-    planets.add(new Planet(new PVector(width * 0.6, height * 0.9), 12));
-    planets.add(new Planet(new PVector(width * 0.9, height * 0.76), 14));
-    planets.add(new Planet(new PVector(width * 1.8, height * 0.8), 10));
+    planets.add(new Planet(new PVector(width * 0.68, height * 1.1), 12));
+    planets.add(new Planet(new PVector(width * 0.98, height * 0.76), 14));
+    planets.add(new Planet(new PVector(width * 1.88, height * 0.8), 10));
     planets.add(new Planet(new PVector(width * 2.33, height * 0.7), 10));
-    planets.add(new Planet(new PVector(width * 2.53, height * 1.5), 10));
+    planets.add(new Planet(new PVector(width * 2.53, height * 1.8), 10));
     planets.add(new Planet(new PVector(width * 2.73, height * 0.8), 10));
     planets.add(new Planet(new PVector(width/2, height/3), 10));
-    planets.add(new Planet(new PVector(width * 1.1, height * 1.4), 12));
-    planets.add(new Planet(new PVector(width * 1.23, height * 0.3), 15));
-    planets.add(new Planet(new PVector(width * 0.6, height * 0.9), 12));
-    planets.add(new Planet(new PVector(width * 0.8, height * 1.46), 14));
-    planets.add(new Planet(new PVector(width * 1.8, height * 1.2), 10));
-    planets.add(new Planet(new PVector(width * 2.13, height * 0.52), 16));
-    planets.add(new Planet(new PVector(width * 2.53, height * 1.6), 13));
-    planets.add(new Planet(new PVector(width * 1.43, height * 0.43), 18));
+ 
 }
 
 void ScrollBackground()
@@ -225,10 +218,10 @@ void ScrollBackground()
   {
     for(int i = 0; i < planets.size(); i++)
     {
-      planets.get(i).position.add(0,player.velocity.y,0);
+      planets.get(i).position.add(0,-player.velocity.y,0);
     }
     
-    portal.position.add(0,player.velocity.y,0);
+    portal.position.add(0,-player.velocity.y,0);
   }
   
   if(player.position.y == player.lowerCamBorder)

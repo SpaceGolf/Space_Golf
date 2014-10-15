@@ -38,8 +38,8 @@ class SpaceShip
     
     leftCamBorder = width / 3;
     rightCamBorder = 2* width/3;
-    upperCamBorder = 2* height/3;
-    lowerCamBorder = height/3;
+    upperCamBorder = height/3;
+    lowerCamBorder = 2*height/3;
     
      fill(255);
     //Creating and starting the shape 
