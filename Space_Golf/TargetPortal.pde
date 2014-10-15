@@ -1,13 +1,30 @@
 //THE CLASS FOR THE TARGET THAT THE PLAYER IS GOING TOWARDS
 class TargetPortal
 {
-  PVector position = new PVector(0, 0);
-  int radius = 0;
+  PVector position;
+  int radius;
+  
+  Target target;
+   
   //The constructpor
   TargetPortal(PVector posit, int rad)
   {
     position = posit;
     radius = rad;
+    target = new Target(this);
+    
+  }
+    
+  boolean isPortalVisible()
+  {
+    if(position.x >= 0 && position.x <= width && position.y >= 0 && position.y <= height)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
   
   //The display to print out the target
@@ -17,5 +34,10 @@ class TargetPortal
     fill(175, 175, 175);
     //Drawing a circle (FOR NOW)
     ellipse(position.x, position.y, radius, radius);
+    
+    target.display();
+       
   }
+  
+  
 }

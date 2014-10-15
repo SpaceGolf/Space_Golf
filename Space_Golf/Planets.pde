@@ -38,7 +38,7 @@ class Planets
   //Method for checking if the player is inside the gravitational field, if it is, return true
   boolean InsideGravField(SpaceShip player)
   {    
-    if(PVector.sub(player.position,position).mag() <= gravField *0.6)
+    if(PVector.sub(player.position,position).mag() <= gravField / 2)
     {
       return true;
     }

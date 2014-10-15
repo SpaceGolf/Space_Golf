@@ -13,6 +13,11 @@ class SpaceShip
   PVector resulting = new PVector(0,0); 
   PVector acceleration = new PVector(0,0);
   
+  int leftCamBorder;
+  int rightCamBorder;
+  int upperCamBorder;
+  int lowerCamBorder;
+  
   boolean alive;
   boolean gameWon = false;
   float speed = 0;
@@ -31,6 +36,11 @@ class SpaceShip
     position = startPosit;
     boostCooldown = 30;
     
+    leftCamBorder = width / 3;
+    rightCamBorder = 2* width/3;
+    upperCamBorder = 2* height/3;
+    lowerCamBorder = height/3;
+    
      fill(255);
     //Creating and starting the shape 
     body = createShape();
@@ -44,8 +54,8 @@ class SpaceShip
     body.endShape(CLOSE);
     
     body.rotate(radians(90));
-    PVector.fromAngle(radians(-90), direction);
-    PVector.fromAngle(radians(-90), boostVector);
+    PVector.fromAngle(radians(0), direction);
+    PVector.fromAngle(radians(0), boostVector);
     
   }
   
@@ -68,7 +78,7 @@ class SpaceShip
     
     if(boost && boostCooldown == 30)
     {
-      speed=8;
+      speed=6;
       boostCooldown = 0;
     }
     else
@@ -101,7 +111,8 @@ class SpaceShip
     }
  
     position.add(velocity);
-  
+    
+    cameraBox();
     bordersCollisions();
   }
   
@@ -128,7 +139,7 @@ class SpaceShip
     if(position.y < 0)
     {
       position.y = 0;
-    }
+    } 
     
     if(position.x > width)
     {
@@ -152,6 +163,29 @@ class SpaceShip
     {
       return false;
     }        
+  }
+  
+  void cameraBox()
+  {
+    if(position.x > rightCamBorder)
+    {
+      position.x = rightCamBorder;
+    }
+    
+    if(position.x < leftCamBorder)
+    {
+      position.x = leftCamBorder;
+    }
+    
+    if(position.y < upperCamBorder)
+    {
+      position.y = upperCamBorder;
+    }
+    
+    if(position.y > lowerCamBorder)
+    {
+      position.y = lowerCamBorder;
+    }  
   }
   
   //The method for handling victory collision

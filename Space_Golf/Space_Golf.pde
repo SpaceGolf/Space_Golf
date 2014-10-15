@@ -20,7 +20,8 @@ void setup()
     size(1500, 800, P2D);
     
     //Creating the player instance and placing it in the actual position (CHANGE LATER)
-    player = new SpaceShip(new PVector(100,height/2));
+    player = new SpaceShip(new PVector(width/3,height/2));
+    portal = new TargetPortal(new PVector( width* 1.5, height/2),20);
     restartBackground();
 
 
@@ -192,7 +193,7 @@ void restartBackground()
 
 void ScrollBackground()
 {
-  if(player.velocity.x > 0 && player.position.x < portal.position.x)
+  if(player.position.x == player.rightCamBorder)
   {
     for(int i = 0; i < planets.size(); i++)
     {
@@ -202,7 +203,7 @@ void ScrollBackground()
     portal.position.add(-player.velocity.x,0,0);
   }
   
-  if(player.velocity.x < 0 && player.position.x > 100)
+  if(player.position.x == player.leftCamBorder)
   {
     for(int i = 0; i < planets.size(); i++)
     {
@@ -211,5 +212,26 @@ void ScrollBackground()
     
     portal.position.add(-player.velocity.x ,0,0);
   }
+  
+  if(player.position.y == player.upperCamBorder)
+  {
+    for(int i = 0; i < planets.size(); i++)
+    {
+      planets.get(i).position.add(0,player.velocity.y,0);
+    }
+    
+    portal.position.add(0,player.velocity.y,0);
+  }
+  
+  if(player.position.y == player.lowerCamBorder)
+  {
+    for(int i = 0; i < planets.size(); i++)
+    {
+      planets.get(i).position.add(0,-player.velocity.y,0);
+    }
+    
+    portal.position.add(0,-player.velocity.y,0);
+  }
+  
    
 }
