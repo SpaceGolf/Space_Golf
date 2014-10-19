@@ -29,7 +29,7 @@ class SpaceShip
   {
     alive=true;
     center = startPosit;
-    boostCooldown = 30;
+    boostCooldown = 20;
     
      fill(255);
     //Creating and starting the shape 
@@ -51,10 +51,11 @@ class SpaceShip
   
   void movementUpdate()
   {
-    if(boostCooldown < 30)
+    if(boostCooldown < 20 && !boost)
     {
       boostCooldown++;
     }
+    
     //updates left and right booleans from KEYRELEASED events in "Space_Golf"
     if(right)
     {
@@ -66,9 +67,9 @@ class SpaceShip
      direction.rotate( -.1);
     }
     
-    if(boost && boostCooldown == 30)
+    if(boost && boostCooldown == 20)
     {
-      speed=10;
+      speed=6;
       boostCooldown = 0;
     }
     else
@@ -113,8 +114,8 @@ class SpaceShip
     PVector.fromAngle(radians(-90), direction);
     PVector.fromAngle(radians(-90), boostVector);
     velocity.mult(0);
+    boostCooldown = 20;
     alive=true;
-    boostCooldown = 30;
   }
   
   //Checking for collisions with the borders of the screen
@@ -144,7 +145,7 @@ class SpaceShip
   
   boolean planetCollision(Planets planet)
   {
-    if(PVector.sub(center,planet.planetCenter).mag() < planet.radius /2)
+    if(PVector.sub(center,planet.planetCenter).mag() <= planet.radius /2)
     {
       return true;
     }
@@ -159,7 +160,7 @@ class SpaceShip
   {
     //Getting the distance of the target to the player
     //If the they are too close, the game is won
-    if(PVector.sub(center,endTarget.position).mag() < endTarget.radius)
+    if((sqrt(sq(endTarget.position.x - center.x) + sq(endTarget.position.y - center.y))) <= endTarget.radius)
     {
       gameWon = true;
     }

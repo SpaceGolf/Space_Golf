@@ -7,11 +7,13 @@ ArrayList <Planets> planets = new ArrayList<Planets>();
 
 //The int for the player's score and the timer that decriments the score
 int scoreCounter = 60;
-int boostPenalty = 50;
 int score = 1000;
+int boostPenalty = 100;
 
 //The timer to be used for the player respawn
 int respawnCounter = 60;
+
+boolean titleScr = true;
 
 //The setup method. initializes all of the main classes stuff
 void setup()
@@ -79,11 +81,48 @@ void keyPressed()
      //Each press of the boost, the score decriments
      score -= boostPenalty;
    }
+   else if(keyCode == ENTER)
+   {
+     if(titleScr == true)
+     {
+       titleScr = false;
+     }
+     else if(player.gameWon == true)
+     { 
+       titleScr = true;
+       player.gameWon = false;
+       score = 1000;
+       player.restart();      
+     }
+   }
 }
 
 //The update method
 void draw()
 {
+  //title screen displays first:
+  if(titleScr == true)
+  {
+    background(255);
+    
+    fill(0);
+    textSize(70);
+    text("Space Golf!", width/2 - 200, 100);
+    textSize(50);
+    text("Instructions:", width/2 -200, 200);
+    textSize(35);
+    text("PRESS... Left Arrow to rotate Left.", width/2 - 250, 300);
+    text("Right Arrow to rotate Right.", width/2 - 250, 350);
+    text("UP Arrow to Boost in Current Direction.", width/2 - 250, 400);
+    text("GOAL: Reach the Portal (the Grey Dot).", width/2 - 250, 450);
+    text("DO NOT hit the plantes.", width/2 - 250, 500);
+    text("Your score goes down every second. Beat the Timer!", width/2 - 250, 550);
+    text("BOOSTING will reduce your score by 100. You will restart if your score reaches zero.", 25, 600);
+    text("READY!? Press ENTER to START!", width/2 - 250, 650);
+  }
+  
+  if(titleScr == false)
+  {
   //Setting the color of the background to black
   background(0);
   
@@ -105,6 +144,8 @@ void draw()
   if(player.gameWon == false)
   {
     //The score timer (counter) drops to 0 after 60 1/60ths of a second (the score drops after one second)
+    if(player.gameWon == false)
+    {
     if(scoreCounter > 0)
     {
       scoreCounter--;
@@ -115,11 +156,11 @@ void draw()
       scoreCounter = 60;
       score--;
     }
+    }
     //Writing out the player's score and placing it in the top right score
     fill(255);
     textSize(25);
     text("Score: " + score, width - 200,  40);
-
     text("BoostCooldown: " + player.boostCooldown, 50, 40);
     
     //If the player is dead (.alive == false)
@@ -179,5 +220,8 @@ void draw()
     text("LEVEL COMPLETED", width/2 - 400, height/2);
     textSize(75);
     text("Your Final Score is: " + score, width/2 - 350, height/2 + 125);
+    text("Press ENTER to restart the game", width/2 - 425, height/2 + 225);
+    
   }
+}
 }
