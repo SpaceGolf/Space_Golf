@@ -14,12 +14,14 @@ int boostPenalty = 100;
 int respawnCounter = 60;
 
 boolean titleScr = true;
+PImage planetTexture;
 
 //The setup method. initializes all of the main classes stuff
 void setup()
 {
   //Setting the size of the screen
     size(1500, 800, P2D);
+    planetTexture = loadImage("Planet.png");
     
     //Creating the player instance and placing it in the actual position (CHANGE LATER)
     player = new SpaceShip(new PVector(100, height/2));
@@ -129,12 +131,14 @@ void draw()
   //Calling the display for all of the planets
   for(Planets planBodies: planets)
   {
-    planBodies.display();
+    
     
     //display of the gravity field.
     ellipseMode(CENTER);
     fill(97, 240, 250, 126);
     ellipse(planBodies.planetCenter.x, planBodies.planetCenter.y, planBodies.gravField, planBodies.gravField);
+    
+    planBodies.display();
   }
   
   //Draw the portal

@@ -7,6 +7,8 @@ class Planets
   float mass;    //mass of the planet
   float constG;    //Gravitational constant
   float gravField;    //radius of the gravitational field
+  PImage texture;
+  PImage atmosphere;
   
   //The constructor that takes the position and the mass of the planet
   Planets(PVector a_position, float a_mass)
@@ -18,6 +20,9 @@ class Planets
     mass = a_mass;
     gravField =  30 * a_mass;
     constG = 8;
+    texture = loadImage("Images/Planet.png");
+    atmosphere = loadImage("Images/Atmosphere.png");
+    
   }
   
   //This method is used for attractign the player to the planet
@@ -52,8 +57,19 @@ class Planets
   //The display, same as the others
   void display()
   {
-    fill(140, 75, 10);  
-    ellipse(planetCenter.x, planetCenter.y, radius, radius);
+    //fill(140, 75, 10);
+    imageMode (CENTER);
+     
+    image(texture, planetCenter.x, planetCenter.y);
+    texture.resize((int)radius,0); 
+  
+    image(atmosphere,planetCenter.x,planetCenter.y);
+    atmosphere.resize((int)radius,0);  
+
+    
+    
+    //ellipse(planetCenter.x, planetCenter.y, radius, radius);
+    
   }
 }
 
