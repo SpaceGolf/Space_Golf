@@ -8,10 +8,16 @@ ArrayList <Planets> planets = new ArrayList<Planets>();
 //The int for the player's score and the timer that decriments the score
 int scoreCounter = 60;
 int score = 1000;
-int boostPenalty = 100;
+int boostPenalty = 120;
 
 //The timer to be used for the player respawn
 int respawnCounter = 60;
+int numberStars = 120;
+
+
+float [] starsSize = new float[numberStars];
+float [] starsPosX = new float[numberStars];
+float [] starsPosY = new float[numberStars];
 
 boolean titleScr = true;
 PImage planetTexture;
@@ -22,6 +28,7 @@ void setup()
   //Setting the size of the screen
     size(1500, 800, P2D);
     planetTexture = loadImage("Planet.png");
+
     
     //Creating the player instance and placing it in the actual position (CHANGE LATER)
     player = new SpaceShip(new PVector(100, height/2));
@@ -40,6 +47,13 @@ void setup()
     planets.add(new Planets(new PVector(1200, 750), 13));
     planets.add(new Planets(new PVector(1350, 550), 10));
     planets.add(new Planets(new PVector(1300, 275), 12));
+    
+    for(int index = 0; index < numberStars; index++)
+    {
+      starsSize[index] = random(1,8);
+      starsPosX[index] = random(5,width - 5);
+      starsPosY[index] = random(5,height - 5);
+    }
 }
 
 //methods looking for key presses to send information on rotation back to the SpaceShip class
@@ -128,10 +142,16 @@ void draw()
   //Setting the color of the background to black
   background(0);
   
+  for(int index = 0; index < numberStars;index++)
+  {
+    ellipseMode(CENTER);
+    fill(255);
+    ellipse(starsPosX[index],starsPosY[index],starsSize[index],starsSize[index]);
+  }
+ 
   //Calling the display for all of the planets
   for(Planets planBodies: planets)
   {
-    
     
     //display of the gravity field.
     ellipseMode(CENTER);
